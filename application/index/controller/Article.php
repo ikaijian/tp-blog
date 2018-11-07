@@ -2,10 +2,10 @@
 
 namespace app\index\controller;
 
-class Index
+class Article
 {
     public function index()
     {
-        return view();
+        return view('index');
     }
 }

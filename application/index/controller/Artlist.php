@@ -2,10 +2,10 @@
 
 namespace app\index\controller;
 
-class Index
+class Artlist
 {
     public function index()
     {
-        return view();
+        return view('artlist');
     }
 }
