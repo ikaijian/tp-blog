@@ -20,11 +20,11 @@
 
 <body>
 <div class="login-container animated fadeInDown">
-    <form action="" method="post">
+    <form action="{:url('Login/index')}" method="post">
         <div class="loginbox bg-white">
-            <div class="loginbox-title">SIGN IN</div>
+            <div class="loginbox-title">Administrator</div>
             <div class="loginbox-textbox">
-                <input value="admin" class="form-control" placeholder="username" name="username" type="text">
+                <input value="admin" class="form-control" placeholder="username" name="name" type="text">
             </div>
             <div class="loginbox-textbox">
                 <input class="form-control" placeholder="password" name="password" type="password">
@@ -33,8 +33,8 @@
                 <input class="btn btn-primary btn-block" value="Login" type="submit">
             </div>
         </div>
-        <div class="logobox">
-            <p class="text-center">技术交流</p>
+        <div class="logobox" style="text-align: center">
+            <p class="text-center" style="padding-top:8px">技术博客交流后台</p>
         </div>
     </form>
 </div>
