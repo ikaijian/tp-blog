@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Common;
 use app\admin\model\Cate as CateModel;
+use app\admin\model\Article as ArticleModel;
 
 class Cate extends Common
 {
@@ -90,6 +91,14 @@ class Cate extends Common
         $cate=new CateModel();
         $sonids=$cate->getchildrenid($cateid);
 //        dump($sonids);die;
+        //删除栏目时同时删除该栏目的文章
+        $allCateId= $sonids;
+        $allCateId[]=$cateid;
+        foreach ($allCateId as $k=>$v){
+            $article=new ArticleModel();
+            $article->where(array('cateid'=>$v))->delete();
+        }
+        //end删除栏目时同时删除该栏目的文章
         if($sonids){
             db('cate')->delete($sonids);
         }
