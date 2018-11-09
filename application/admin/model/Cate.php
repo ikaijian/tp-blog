@@ -8,7 +8,7 @@ class Cate extends Model
 {
     public function cateTrees()
     {
-        $cateres = $this->select();
+        $cateres = $this->order('sort desc')->select();
 //        return $cateres;
         return $this->sort($cateres);
     }

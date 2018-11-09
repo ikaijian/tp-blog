@@ -11,7 +11,7 @@ class Cate extends Common
     protected $beforeActionList = [
         // 'first',    //先执行该法方法
         // 'second' =>  ['except'=>'hello'],  //除了hello法方，
-        'delsoncate'  =>  ['only'=>'del'],    //当执行del法方，才执行delsoncate法方
+        'delsoncate'  =>  ['only'=>'del'],    //当执行del法方，先执行delsoncate法方
     ];
 
     public function lst()
@@ -19,6 +19,15 @@ class Cate extends Common
 
         //模型
         $cate = new CateModel();
+        if(request()->isPost()){
+            $sorts=input('post.');
+//            dump($sorts);die;
+            foreach ($sorts as $k => $v) {
+                $cate->update(['id'=>$k,'sort'=>$v]);
+            }
+            $this->success('更新排序成功！',url('Cate/lst'));
+            return;
+        }
         $cateres = $cate->cateTrees();
         $this->assign('cateres', $cateres);
         return view();
@@ -41,7 +50,7 @@ class Cate extends Common
         return view();
     }
 
-    public function edit($id)
+    public function edit()
     {
         $cate = new CateModel();
         if(request()->isPost()) {
