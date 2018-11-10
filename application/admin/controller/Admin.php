@@ -5,6 +5,7 @@ namespace app\admin\controller;
 use think\Controller;
 //use  think\Db;
 use app\admin\model\Admin as AdminModel;
+use think\Loader;
 
 class Admin extends Common
 {
@@ -33,6 +34,11 @@ class Admin extends Common
 //            $res=Db::name('admin')->insert($data);
 //            $res=Db::table('blog_admin')->insert($data);
             //第三种：通过模型
+
+            $validate = Loader::validate('Admin');
+            if (!$validate->scene('add')->check($data)) {
+                $this->error($validate->getError());
+            }
             $new = new AdminModel();
             $res = $new->addadmin($data);
             if ($res) {
@@ -60,6 +66,11 @@ class Admin extends Common
 //            }
 //            $res=db('admin')->update($data);
             //通过模型
+
+            $validate = Loader::validate('Admin');
+            if (!$validate->scene('edit')->check($data)) {
+                $this->error($validate->getError());
+            }
             $new=new AdminModel();
 //            $res=$new->save($data,$admins);
             $saveNum=$new->saveadmin($data,$admins);

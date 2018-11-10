@@ -5,12 +5,13 @@ namespace app\admin\controller;
 use app\admin\controller\Common;
 use app\admin\model\Cate as CateModel;
 use app\admin\model\Article as ArticleModel;
+use think\Loader;
 
 class Article extends Common
 {
     public function lst()
     {
-        $artres = db('article')->field('a.*,b.cate_name')->alias('a')->join('blog_cate b','a.cateid=b.id')->paginate(2);
+        $artres = db('article')->field('a.*,b.cate_name')->alias('a')->join('blog_cate b','a.cateid=b.id')->paginate(4);
         $this->assign('artres', $artres);
         return view();
     }
@@ -21,6 +22,10 @@ class Article extends Common
             $data = input('post.');
             $data['time'] = time();
 //            dump($data);die;
+            $validate=Loader::validate('Article');
+            if(!$validate->scene('add')->check($data)){
+                $this->error($validate->getError());
+            }
             $article = new ArticleModel();
 
 //            //图片上传  控制器层处理（注意必须给文件上传表单添加属性:enctype="multipart/form-data"）
@@ -58,6 +63,10 @@ class Article extends Common
     {
         if(request()->isPost()){
             $data=input('post.');
+            $validate=Loader::validate('Article');
+            if(!$validate->scene('edit')->check($data)){
+                $this->error($validate->getError());
+            }
             $new=new ArticleModel();
             $articleNum=$new->update($data);
 //            dump($articleNum);die;
