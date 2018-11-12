@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>tp-blog</title>
+
+    <meta name="description" content="Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--Basic Styles-->
+    <link href="__ADMIN__/css/bootstrap.css" rel="stylesheet">
+    <link href="__ADMIN__/css/font-awesome.css" rel="stylesheet">
+    <link href="__ADMIN__/css/weather-icons.css" rel="stylesheet">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="__ADMIN__/css/beyond.css" rel="stylesheet" type="text/css">
+    <link href="__ADMIN__/css/demo.css" rel="stylesheet">
+    <link href="__ADMIN__/css/typicons.css" rel="stylesheet">
+    <link href="__ADMIN__/css/animate.css" rel="stylesheet">
+
+</head>
+<body>
+<!-- 头部 -->
+{include file="public/header" /}
+
+<!-- /头部 -->
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+        <!-- Page Sidebar -->
+        {include file="public/left" /}
+        <!-- /Page Sidebar -->
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Page Breadcrumb -->
+            <div class="page-breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="#">系统</a>
+                    </li>
+                    <li class="active">配置管理</li>
+                </ul>
+            </div>
+            <!-- /Page Breadcrumb -->
+
+            <!-- Page Body -->
+            <div class="page-body">
+
+                <button type="button" tooltip="添加栏目" class="btn btn-sm btn-azure btn-addon">网站配置
+                </button>
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="widget">
+                            <div class="widget-body">
+                                <div class="flip-scroll">
+                                    <form action="{:url('Conf/conf')}" method="post">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="">
+                                            <tr>
+                                                <th class="text-center" width="10%">配置名称</th>
+                                                <th class="text-left">配置值</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach($confres as $k=>$v): ?>
+                                            <tr>
+                                                <td align="center"><?php echo $v['cn_name']?></td>
+                                                <td align="left">
+                                                    <!--1：单行文本框-->
+                                                    <?php if($v['type']==1): ?>
+                                                    <input type="text" name="<?php echo $v['en_name'];?>" class="form-control" value="<?php echo $v['value'];?>" style="width: 70%;">
+                                                    <!--2：多行文本 -->
+                                                    <?php elseif($v['type']==2):?>
+                                                    <textarea name="<?php echo $v['en_name'];?>" id="" class="form-control" style="width: 70%;">
+                                                        <?php echo $v['value'];?>
+                                                    </textarea>
+                                                    <!--3：单选按钮-->
+                                                    <?php elseif($v['type']==3):
+                                                        if($v['values']){
+                                                            $arrradio=explode(',',$v['values']);
+                                                        }
+                                                        foreach($arrradio as $k1=>$v1):
+                                                    ?>
+                                                    <label style="margin-right: 2em;">
+                                                        <input <?php if($v['value']==$v1){echo 'checked="checked"';} ?> name="<?php echo $v['en_name'];?>" value="<?php echo $v1;?>" type="radio">
+                                                        <span class="text"><?php echo $v1;?></span>
+                                                    </label>
+                                                        <?php endforeach;?>
+                                                    <!--4：复选按钮 -->
+                                                    <?php elseif($v['type']==4):?>
+                                                    <label >
+                                                        <input type="checkbox" <?php if($v['value']==$v['values']){echo 'checked="checked"';} ?> value="<?php echo $v['values'];?>" class="colored-success" name="<?php echo $v['en_name'];?>" >
+                                                        <span class="text"><?php echo $v['values']; ?></span>
+                                                    </label>
+                                                    <!--5：下拉菜单-->
+                                                    <?php elseif($v['type']==5):
+                                                        if($v['values']){
+                                                            $arrselect=explode(',',$v['values']);
+                                                        }
+                                                     ?>
+                                                    <select name="<?php echo $v['en_name'];?>">
+                                                        <?php foreach($arrselect as $k2=>$v2):?>
+                                                        <option <?php if($v['value']==$v2){echo 'selected="selected"';} ?> value="<?php echo $v2;?>"><?php echo $v2;?></option>
+                                                        <?php endforeach;?>
+                                                    </select>
+
+                                                    <?php endif ?>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach;?>
+                                            </tbody>
+                                        </table>
+                                        <div align="right">
+                                            <input class="btn btn-primary btn-lg shiny" style="margin-right:52%; margin-top:10px;" type="submit" value="提交修改">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /Page Body -->
+            {include file="public/footer" /}
+        </div>
+        <!-- /Page Content -->
+    </div>
+</div>
+
+<!--Basic Scripts-->
+<script src="__ADMIN__/js/jquery_002.js"></script>
+<script src="__ADMIN__/js/bootstrap.js"></script>
+<script src="__ADMIN__/js/jquery.js"></script>
+<!--Beyond Scripts-->
+<script src="__ADMIN__/js/beyond.js"></script>
+
+
+</body>
+</html>

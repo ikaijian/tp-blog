@@ -40,9 +40,9 @@
                         <a href="#">系统</a>
                     </li>
                     <li>
-                        <a href="{:url('Cate/lst')}">栏目管理</a>
+                        <a href="{:url('Conf/lst')}">配置管理</a>
                     </li>
-                    <li class="active">添加栏目</li>
+                    <li class="active">修改配置</li>
                 </ul>
             </div>
             <!-- /Page Breadcrumb -->
@@ -54,53 +54,54 @@
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="widget">
                             <div class="widget-header bordered-bottom bordered-blue">
-                                <span class="widget-caption">新增栏目</span>
+                                <span class="widget-caption">修改配置</span>
                             </div>
                             <div class="widget-body">
                                 <div id="horizontal-form">
-                                    <form class="form-horizontal" role="form" action="{:url('Cate/add')}" method="post">
+                                    <form class="form-horizontal" role="form" action="" method="post">
+                                        <input type="hidden" name="id" value="{$confs.id}">
                                         <div class="form-group">
-                                            <label for="username" class="col-sm-2 control-label no-padding-right">上级栏目</label>
+                                            <label class="col-sm-2 control-label no-padding-right">中文名称</label>
                                             <div class="col-sm-6">
-                                                <select name="pid">
-                                                    <option value="0">顶级栏目</option>
-                                                    {volist name="cateres" id="cate"}
-                                                    <option value="{$cate.id}">{if condition="$cate['level'] neq 0"}|{/if}<?php echo str_repeat('-', $cate['level']*4)?>{$cate.cate_name}</option>
-                                                    {/volist}
+                                                <input class="form-control" placeholder="" name="cn_name" value="{$confs.cn_name}" required="" type="text">
+                                            </div>
+                                            <p class="help-block col-sm-4 red">* 必填</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right">英文名称</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" placeholder="" name="en_name" value="{$confs.en_name}" required="" type="text">
+                                            </div>
+                                            <p class="help-block col-sm-4 red">* 必填</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right">配置类型</label>
+                                            <div class="col-sm-6">
+                                                <select disabled="disabled" name="type">
+                                                    <option value="0">请选择</option>
+                                                    <option {if condition="$confs['type'] eq 1" } selected="selected" {/if} value="1">
+                                                        单行文本
+                                                    </option>
+                                                    <option {if condition="$confs['type'] eq 2" } selected="selected" {/if} value="2">
+                                                        多行文本
+                                                    </option>
+                                                    <option {if condition="$confs['type'] eq 3" } selected="selected" {/if} value="3">
+                                                    单选按钮
+                                                    </option>
+                                                    <option {if condition="$confs['type'] eq 4" } selected="selected" {/if} value="4">
+                                                    复选框
+                                                    </option>
+                                                    <option {if condition="$confs['type'] eq 5" } selected="selected" {/if} value="5">
+                                                    下拉菜单
+                                                    </option>
                                                 </select>
                                             </div>
                                             <p class="help-block col-sm-4 red">* 必填</p>
                                         </div>
-
                                         <div class="form-group">
-                                            <label for="username" class="col-sm-2 control-label no-padding-right">栏目名称</label>
+                                            <label class="col-sm-2 control-label no-padding-right">可选值</label>
                                             <div class="col-sm-6">
-                                                <input class="form-control" id="username" placeholder="" name="cate_name" required="" type="text">
-                                            </div>
-                                            <p class="help-block col-sm-4 red">* 必填</p>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="group_id" class="col-sm-2 control-label no-padding-right">栏目类型</label>
-                                            <div class="col-sm-6">
-                                                <div class="radio" style="float:left; margin-right:10px;">
-                                                    <label>
-                                                        <input checked="checked" name="type" value="1"  type="radio">
-                                                        <span class="text">文章列表</span>
-                                                    </label>
-                                                </div>
-                                                <div class="radio" style="float:left; margin-right:10px;">
-                                                    <label>
-                                                        <input name="type" class="inverted" value="2" type="radio">
-                                                        <span class="text">单页</span>
-                                                    </label>
-                                                </div>
-                                                <div class="radio" style="float:left; margin-right:10px;">
-                                                    <label>
-                                                        <input name="type" class="inverted" value="3" type="radio">
-                                                        <span class="text">图片列表</span>
-                                                    </label>
-                                                </div>
+                                                <textarea name="values" class="form-control">{$confs.values}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -114,7 +115,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <!-- /Page Body -->
             {include file="public/footer" /}
