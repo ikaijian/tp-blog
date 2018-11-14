@@ -11,6 +11,8 @@ class Login extends Controller
     {
         if (request()->isPost()){
             $data=input('post.');
+            //验证码
+            $this->checkCode($data['code']);
             $new=new Admin();
             $retu=$new->login($data);
             if($retu==1){
@@ -24,5 +26,14 @@ class Login extends Controller
             }
         }
         return view('login');
+    }
+
+    public function checkCode($code='')
+    {
+        if (!captcha_check($code)) {
+            $this->error('验证码错误');
+        } else {
+            return true;
+        }
     }
 }

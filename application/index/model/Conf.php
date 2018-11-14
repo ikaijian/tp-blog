@@ -5,7 +5,7 @@ use think\Model;
 class Conf extends Model{
     public function getAllConf()
     {
-        $confres=$this->select();
+        $confres=$this->field('en_name,cn_name')->select();
         return $confres;
     }
 }

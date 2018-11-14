@@ -29,6 +29,11 @@
             <div class="loginbox-textbox">
                 <input class="form-control" placeholder="password" name="password" type="password">
             </div>
+            <div class="loginbox-textbox">
+                <input class="form-control" style="width:100px;float:left;" name="code" type="text">
+                <img src="{:captcha_src()}" onclick="this.src='{:captcha_src()}?'+Math.random();" width="120" style=" cursor:pointer;" alt="captcha" />
+            </div>
+
             <div class="loginbox-submit">
                 <input class="btn btn-primary btn-block" value="Login" type="submit">
             </div>
