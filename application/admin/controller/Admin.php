@@ -102,6 +102,8 @@ class Admin extends Common
             $this->error('删除管理员失败！');
         }
     }
+
+    //退出登陆
     public function logout()
     {
         session(null);

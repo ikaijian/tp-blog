@@ -53,10 +53,10 @@ class Admin extends Model
 
     public function login($data)
     {
-        $adminNum = Admin::getByName($data['name']);
+        $adminNum = Admin::get(['name'=>$data['name']]);
 //        dump($adminNum);die;
         if ($adminNum) {
-            if ($adminNum['password'] = md5($data['password'])) {
+            if ($adminNum['password'] == md5($data['password'])) {
                 session('id', $adminNum['id']);
                 session('name',$adminNum['name']);
                 return 2; //登陆密码正确情况
