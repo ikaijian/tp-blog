@@ -60,7 +60,7 @@
                                             <thead class="">
                                             <tr>
                                                 <th class="text-center" width="10%">ID</th>
-                                                <th class="text-center">用户组名称</th>
+                                                <th class="text-center">用户组</th>
                                                 <th class="text-center">启用状态</th>
                                                 <th class="text-center" width="20%">操作</th>
                                             </tr>
@@ -69,7 +69,7 @@
                                             {volist name="authGroupRes" id="authGroup"}
                                             <tr>
                                                 <td align="center">{$authGroup.id}</td>
-                                                <td align="center">{$authGroup.title}</td>
+                                                <td align="center">{$authGroup.authgroup}</td>
                                                 <td align="center">
                                                     {if condition="$authGroup['status'] eq 1"}
                                                     <a class="btn btn-success btn-sm" href="javascript:void(0);">启用</a>

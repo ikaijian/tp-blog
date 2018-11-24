@@ -2,6 +2,7 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\AuthGroupAccess;
 use think\Controller;
 //use  think\Db;
 use app\admin\model\Admin as AdminModel;
@@ -16,10 +17,21 @@ class Admin extends Common
 //        $res=db('admin')->field('name,password')->select();
 //        $res=db('admin')->where('id',1)->select();
 
+        //管理员分配用户
+        $auth=new Auth();
+        $group=$auth->getGroups(session('id'));
+//        dump($group);die;
         //模型
         $new = new AdminModel();
 //        $res=$new->select();
         $adminres = $new->getadmin();
+//        dump($adminres);die;
+        foreach ($adminres as $k => $v) {
+            $_groupTitle=$auth->getGroups($v['id']);
+            $groupTitle=$_groupTitle[0]['authgroup'];
+            $v['groupTitle']=$groupTitle;
+        }
+
         $this->assign('adminres', $adminres);
         return view();
     }
@@ -48,6 +60,8 @@ class Admin extends Common
             }
             return;
         }
+        $authGroupRes=db('auth_group')->select();
+        $this->assign('authGroupRes',$authGroupRes);
         return view();
     }
 
@@ -88,7 +102,17 @@ class Admin extends Common
         if (!$admins) {
             $this->error('该管理不存在');
         }
-        $this->assign('admin', $admins);
+
+        //管理员组分配
+        $newGroupAccess=new AuthGroupAccess();
+        $authGroupAccess=$newGroupAccess->where('uid',$id)->find();
+//        dump($authGroupAccess['group_id']);die;
+        $authGroupRes=db('auth_group')->select();
+        $this->assign([
+            'admin'=>$admins,
+            'groupId'=>$authGroupAccess['group_id'],
+            'authGroupRes'=>$authGroupRes,
+        ]);
         return view();
     }
 

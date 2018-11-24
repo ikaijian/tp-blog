@@ -14,8 +14,13 @@ class Admin extends Model
         if ($data['password']) {
             $data['password'] = md5($data['password']);
         }
-        $res = $this->save($data);
+// 过滤post数组中的非数据表字段数据allowField(true)
+        $res = $this->allowField(true)->save($data);
         if ($res) {
+            $groupAccess['uid']=$this->id;
+            $groupAccess['group_id']=$data['group_id'];
+            $newGroupAccess=new AuthGroupAccess();
+            $newGroupAccess->save($groupAccess);
             return true;
         } else {
             return false;
@@ -38,7 +43,12 @@ class Admin extends Model
         } else {
             $data['password'] = md5($data['password']);
         }
-        return $this::update($data, $admins);
+//        dump($data);die;
+        $newGroupAccess=new AuthGroupAccess();
+
+        $newGroupAccess->where(array('uid'=>$data['id']))->update(['group_id'=>$data['group_id']]);
+//        return $this::update($data, $admins);
+        return $this::update(['name'=>$data['name'],'password'=>$data['password']],['id'=>$data['id']]);
     }
 
     public function delAdmin($id)
